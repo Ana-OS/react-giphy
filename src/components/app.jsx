@@ -6,11 +6,13 @@ import GifList from './gifs_list.jsx'
   // component , render and props are built in React
 class App extends Component {
     constructor(props) {
+      // temos de passar super(props) para poder recorrer ao this
       super(props);
       // states é tudo o que é passivel de mudar
       this.state = {
         gifs: [],
-        selectedGifId: "2qFAkEKypfbu0Sgw0d"
+        // não quero abrir a minha app com um id  gif.id j´sm especificado portant começo com null. Mas isto dá erro portanto tenho de ir ao component gif e criar uma condição de segurança
+        selectedGifId: null//"2qFAkEKypfbu0Sgw0d"
       }
       // this.search("homer thinking")
     }
@@ -24,6 +26,12 @@ class App extends Component {
           this.setState({
             gifs: res.data
           })
+      });
+    }
+
+    selectGif = (id) => {
+      this.setState({
+        selectedGifId: id
       });
     }
 
@@ -42,12 +50,13 @@ class App extends Component {
             </div>
         </div>
         <div className="rigth-scene">
-          <GifList gifs={this.state.gifs}/>
+
+          <GifList gifs={this.state.gifs} selectGif={this.selectGif}/>
         </div>
       </div>
     )
   }
-
+  //  ao passar gifs e selectdGid em GifList estou a passar props que depois usomem cada um destes componentes. São dois props que construi neste componente App graças ao constructor
 }
 
 export default App;
